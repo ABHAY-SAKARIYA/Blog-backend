@@ -137,7 +137,7 @@ const GetSingleReddisMiddleware = async (req, res, next) => {
         const redData = await client.get(postId);
 
         if (redData !== null) {
-            return res.json({ data: JSON.parse(redData), msg: "success" })
+            return res.json({ data: JSON.parse(redData), type: "success" })
         } else {
             next();
         }
