@@ -134,10 +134,10 @@ const GetSingleReddisMiddleware = async (req, res, next) => {
     try {
         const postId = req.params.id;
 
-        const redData = await client.get(postId);
+        const redData = await client.get(`data:${postId}`);
 
         if (redData !== null) {
-            return res.json({ data: JSON.parse(redData), type: "success" })
+            return res.json({ data: JSON.parse(redData), type: "success Data From Redis" })
         } else {
             next();
         }
@@ -160,8 +160,8 @@ router.get("/:id", GetSingleReddisMiddleware, async (req, res) => {
 
         if (Data !== null) {
             // Set redis variable.
-            client.set(postId, JSON.stringify(Data));
-            client.expire(postId, 3600);
+            client.set(`data:${postId}`, JSON.stringify(Data));
+            client.expire(`data:${postId}`, 3600);
 
             // Return Response
             return res.json({ data: Data, type: "success" });
